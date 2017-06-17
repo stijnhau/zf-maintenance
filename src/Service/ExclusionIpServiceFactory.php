@@ -26,7 +26,16 @@ class ExclusionIpServiceFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $options    = $serviceLocator->get('ZfMaintenanceOptions');
+        return $this->__invoke($serviceLocator, "ExclusionIpServiceFactory");
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see \Zend\ServiceManager\Factory\FactoryInterface::__invoke()
+     */
+    public function __invoke(\Interop\Container\ContainerInterface $container, $requestedName, array $options = null)
+    {
+        $options    = $container->get('ZfMaintenanceOptions');
         $exclusions = $options->getExclusions();
 
         if (!isset($exclusions['ZfMaintenanceIpExclusion'])) {

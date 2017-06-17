@@ -24,7 +24,16 @@ class ViewMaintenanceMessageServiceFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $helperPluginManager)
     {
-        $serviceLocator = $helperPluginManager->getServiceLocator();
+        return $this->__invoke($serviceLocator, "ViewMaintenanceMessageServiceFactory");
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see \Zend\ServiceManager\Factory\FactoryInterface::__invoke()
+     */
+    public function __invoke(\Interop\Container\ContainerInterface $container, $requestedName, array $options = null)
+    {
+        $serviceLocator = $container->getServiceLocator();
         $options        = $serviceLocator->get('ZfMaintenanceOptions');
 
         return new MaintenanceMessage($options->getProviders());

@@ -26,7 +26,16 @@ class ProviderConfigScheduledServiceFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $options   = $serviceLocator->get('ZfMaintenanceOptions');
+        return $this->__invoke($serviceLocator, "ProviderConfigScheduledServiceFactory");
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see \Zend\ServiceManager\Factory\FactoryInterface::__invoke()
+     */
+    public function __invoke(\Interop\Container\ContainerInterface $container, $requestedName, array $options = null)
+    {
+        $options   = $container->get('ZfMaintenanceOptions');
         $providers = $options->getProviders();
 
         if (!isset($providers['ZfMaintenanceConfigScheduledProvider'])) {

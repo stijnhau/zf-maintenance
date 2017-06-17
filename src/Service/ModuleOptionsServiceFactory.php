@@ -31,7 +31,16 @@ class ModuleOptionsServiceFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config            = $serviceLocator->get('Config');
+        return $this->__invoke($serviceLocator, "ModuleOptionsServiceFactory");
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see \Zend\ServiceManager\Factory\FactoryInterface::__invoke()
+     */
+    public function __invoke(\Interop\Container\ContainerInterface $container, $requestedName, array $options = null)
+    {
+        $config            = $container->get('Config');
         $maintenanceConfig = !empty($config[$this->configKey]) ? $config[$this->configKey] : array();
 
         return new ModuleOptions($maintenanceConfig);

@@ -24,8 +24,16 @@ class ViewScheduledMaintenanceServiceFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $helperPluginManager)
     {
-        $serviceLocator = $helperPluginManager->getServiceLocator();
-        $options        = $serviceLocator->get('ZfMaintenanceOptions');
+        return $this->__invoke($helperPluginManager->getServiceLocator(), "ViewScheduledMaintenanceServiceFactory");
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see \Zend\ServiceManager\Factory\FactoryInterface::__invoke()
+     */
+    public function __invoke(\Interop\Container\ContainerInterface $container, $requestedName, array $options = null)
+    {
+        $options        = $container->get('ZfMaintenanceOptions');
 
         return new ScheduledMaintenance($options->getProviders());
     }

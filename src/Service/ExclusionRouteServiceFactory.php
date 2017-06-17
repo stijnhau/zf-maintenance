@@ -25,7 +25,16 @@ class ExclusionRouteServiceFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $options    = $serviceLocator->get('ZfMaintenanceOptions');
+        return $this->__invoke($serviceLocator, "ExclusionRouteServiceFactory");
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see \Zend\ServiceManager\Factory\FactoryInterface::__invoke()
+     */
+    public function __invoke(\Interop\Container\ContainerInterface $container, $requestedName, array $options = null)
+    {
+        $options    = $container->get('ZfMaintenanceOptions');
         $exclusions = $options->getExclusions();
 
         if (!isset($exclusions['ZfMaintenanceRouteExclusion'])) {
@@ -33,7 +42,7 @@ class ExclusionRouteServiceFactory implements FactoryInterface
         }
 
         $routes     = $exclusions['ZfMaintenanceRouteExclusion'];
-        $routeMatch = $serviceLocator->get('Application')->getMvcEvent()->getRouteMatch();
+        $routeMatch = $container->get('Application')->getMvcEvent()->getRouteMatch();
 
         return new RouteExclusion($routes, $routeMatch);
     }
